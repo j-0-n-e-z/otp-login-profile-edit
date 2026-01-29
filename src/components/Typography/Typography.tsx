@@ -1,7 +1,8 @@
 import React from 'react'
+
 import styles from './Typography.module.css'
 
-type TypographyTag = 'p' | 'div' | 'h1' | 'h2' | 'h3' | 'h4' | 'span'
+type TypographyTag = 'div' | 'h1' | 'h2' | 'h3' | 'h4' | 'p' | 'span'
 type TypographyVariant = 'title'
 
 type TypographyProps<Tag extends TypographyTag> = React.ComponentProps<Tag> & {
