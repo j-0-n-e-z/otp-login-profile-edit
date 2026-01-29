@@ -1,5 +1,5 @@
-import { AuthView } from "./modules/auth/view"
+import { AuthView } from "@/modules/auth/View";
 
 export const App = () => {
-  return <AuthView/>
-}
+  return <AuthView />;
+};
