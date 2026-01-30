@@ -12,17 +12,15 @@ interface ButtonProps extends React.ComponentProps<'button'> {
 
 // eslint-disable-next-line react/no-forward-ref
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ children, variant, className, ...props }, ref) => {
-    return (
-      <button
-        className={clsx(styles.button, styles[variant], className)}
-        type='button'
-        {...props}
-        ref={ref}
-      >
-        {children}
-      </button>
-    );
-  }
+  ({ children, variant, className, ...props }, ref) => (
+    <button
+      className={clsx(styles.button, styles[variant], className)}
+      type='button'
+      {...props}
+      ref={ref}
+    >
+      {children}
+    </button>
+  )
 );
 Button.displayName = 'Button';
