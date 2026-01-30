@@ -1,8 +1,6 @@
 import clsx from 'clsx';
 import React from 'react';
 
-import styles from './Typography.module.css';
-
 type TypographyTag = 'div' | 'h1' | 'h2' | 'h3' | 'h4' | 'p' | 'span';
 type TypographyVariant = 'paragraph16-regular' | 'title';
 
@@ -23,7 +21,7 @@ export const Typography = <Tag extends TypographyTag = 'div'>({
   const Component = tag;
 
   return (
-    <Component className={clsx(styles[variant], className)} {...props}>
+    <Component className={clsx(variant, className)} {...props}>
       {children}
     </Component>
   );
