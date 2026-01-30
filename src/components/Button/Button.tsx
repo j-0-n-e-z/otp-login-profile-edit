@@ -10,7 +10,7 @@ interface ButtonProps extends React.ComponentProps<'button'> {
   variant: ButtonVariant;
 }
 
-// eslint-disable-next-line react/no-forward-ref
+// eslint-disable-next-line react/no-forward-ref, siberiacancode-react/display-name
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ children, variant, className, ...props }, ref) => (
     <button
@@ -23,4 +23,3 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     </button>
   )
 );
-Button.displayName = 'Button';
