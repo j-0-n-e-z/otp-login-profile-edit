@@ -10,21 +10,19 @@ interface ButtonProps extends React.ComponentProps<'button'> {
   variant: ButtonVariant;
 }
 
-export const Button = ({
-  ref,
-  children,
-  variant,
-  className,
-  ...props
-}: ButtonProps & { ref?: React.RefObject<HTMLButtonElement | null> }) => {
-  return (
-    <button
-      className={clsx(styles.button, styles[variant], className)}
-      type='button'
-      {...props}
-      ref={ref}
-    >
-      {children}
-    </button>
-  );
-};
+// eslint-disable-next-line react/no-forward-ref
+export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ children, variant, className, ...props }, ref) => {
+    return (
+      <button
+        className={clsx(styles.button, styles[variant], className)}
+        type='button'
+        {...props}
+        ref={ref}
+      >
+        {children}
+      </button>
+    );
+  }
+);
+Button.displayName = 'Button';
