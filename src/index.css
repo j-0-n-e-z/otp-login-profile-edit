@@ -13,8 +13,10 @@
   -moz-osx-font-smoothing: grayscale;
 
   --background-brand: #1975ff;
+  --background-primary: #fff;
   --background-hover-primary: #0052cc;
   --background-brand-extralight: #cce0ff;
+  --border-light: #ced2da;
   --text-invert: #fff;
 }
 
@@ -27,7 +29,7 @@ body {
   min-height: 100vh;
 }
 
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: light) {
   :root {
     color: #213547;
     background-color: #ffffff;
