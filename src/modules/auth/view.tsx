@@ -1,12 +1,12 @@
 import { Typography } from '@/components';
 
 import { OtpForm } from './components/OtpForm/OtpForm';
-import { useView } from './hooks/useView';
+import { useAuthViewStore } from './store';
 
 import styles from './View.module.css';
 
 export const AuthView = () => {
-  const { state } = useView();
+  const authViewStore = useAuthViewStore();
 
   return (
     <div className={styles.container}>
@@ -14,7 +14,7 @@ export const AuthView = () => {
         Вход
       </Typography>
 
-      {!state.isOtpSent && <OtpForm />}
+      {!authViewStore.isOtpSent && <OtpForm />}
     </div>
   );
 };
