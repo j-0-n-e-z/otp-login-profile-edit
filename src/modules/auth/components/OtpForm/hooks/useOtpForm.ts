@@ -15,5 +15,9 @@ export const useOtpForm = () => {
     console.log(values);
   });
 
-  return { form: otpForm, functions: { onSubmit } };
+  return {
+    form: otpForm,
+    state: { isLoading: otpForm.formState.isSubmitting },
+    functions: { onSubmit }
+  };
 };

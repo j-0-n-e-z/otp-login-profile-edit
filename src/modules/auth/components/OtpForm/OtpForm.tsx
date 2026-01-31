@@ -8,7 +8,7 @@ import { useOtpForm } from './hooks/useOtpForm';
 import styles from './OtpForm.module.css';
 
 export const OtpForm = () => {
-  const { form, functions } = useOtpForm();
+  const { form, state, functions } = useOtpForm();
 
   return (
     <form className={styles.container} onSubmit={functions.onSubmit}>
@@ -18,9 +18,10 @@ export const OtpForm = () => {
       </Typography>
 
       <Controller
-        render={({ field, fieldState }) => (
+        render={({ field: { onChange, ...rest }, fieldState }) => (
           <Input
-            {...field}
+            {...rest}
+            disabled={state.isLoading}
             component={PatternFormat}
             format='+7 (###) ### ## ##'
             placeholder='Телефон'
@@ -31,7 +32,7 @@ export const OtpForm = () => {
         control={form.control}
       />
 
-      <Button type='submit' variant='contained'>
+      <Button type='submit' variant='contained' loading={state.isLoading}>
         Войти
       </Button>
     </form>
