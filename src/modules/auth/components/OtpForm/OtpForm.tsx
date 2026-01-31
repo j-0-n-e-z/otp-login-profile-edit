@@ -24,6 +24,7 @@ export const OtpForm = () => {
             disabled={state.isLoading}
             component={PatternFormat}
             format='+7 (###) ### ## ##'
+            onValueChange={({ value }) => onChange(value)}
             placeholder='Телефон'
             {...(fieldState.error && { error: fieldState.error.message })}
           />
