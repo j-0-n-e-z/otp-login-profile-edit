@@ -16,26 +16,33 @@ type InputProps<
 // eslint-disable-next-line react/no-forward-ref, siberiacancode-react/display-name
 export const Input = React.forwardRef(
   (
-    { label, className, component, error, ...props }: InputProps<'input'>,
+    { label, className, component, error, id: externalId, ...props }: InputProps<'input'>,
     ref: React.ForwardedRef<HTMLInputElement>
   ) => {
-    const id = React.useId();
+    const internalId = React.useId();
+    const id = externalId ?? internalId;
     const Component = component ?? 'input';
 
     return (
-      <div className={styles.container}>
+      <div className={clsx(styles.container, { [styles.error]: !!error })}>
         {label && (
           <label className='paragraph14-regular' htmlFor={id}>
             {label}
           </label>
         )}
         <Component
-          className={clsx(styles.input, 'paragraph16-regular', className)}
+          className={clsx(
+            styles.input,
+            'paragraph16-regular',
+            className
+          )}
           {...props}
           ref={ref}
           id={id}
         />
-        {error && <p>{error}</p>}
+        {error && (
+          <p className={clsx('paragraph16-regular', className)}>{error}</p>
+        )}
       </div>
     );
   }

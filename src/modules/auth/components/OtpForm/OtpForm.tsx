@@ -22,6 +22,7 @@ export const OtpForm = () => {
           <Input
             {...rest}
             disabled={state.isLoading}
+            autoComplete='tel'
             component={PatternFormat}
             format='+7 (###) ### ## ##'
             onValueChange={({ value }) => onChange(value)}
@@ -34,7 +35,7 @@ export const OtpForm = () => {
       />
 
       <Button
-        disabled={state.isLoading}
+        disabled={state.isLoading || !!form.formState.errors.phone}
         type='submit'
         variant='contained'
         loading={state.isLoading}
