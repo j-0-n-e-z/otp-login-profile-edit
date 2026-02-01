@@ -13,7 +13,7 @@ export const useOtpForm = () => {
   const authViewStore = useAuthViewStore();
 
   const otpForm = useForm<OtpScheme>({
-    mode: 'onBlur',
+    mode: 'onTouched',
     resolver: zodResolver(otpScheme),
     defaultValues: {
       phone: ''
