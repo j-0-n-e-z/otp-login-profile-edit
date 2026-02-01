@@ -16,8 +16,14 @@
   --background-primary: #fff;
   --background-hover-primary: #0052cc;
   --background-brand-extralight: #cce0ff;
+  --background-disabled: #f3f4f6;
+
   --border-light: #ced2da;
+
   --text-invert: #fff;
+  --text-error: #f64c4c;
+
+  --indicator-error: #f64c4c;
 }
 
 body {
@@ -29,7 +35,7 @@ body {
   min-height: 100vh;
 }
 
-@media (prefers-color-scheme: light) {
+@media (prefers-color-scheme: dark) {
   :root {
     color: #213547;
     background-color: #ffffff;
