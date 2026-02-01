@@ -1,4 +1,6 @@
+/* eslint-disable no-console */
 import { zodResolver } from '@hookform/resolvers/zod';
+import { AxiosError } from 'axios';
 import { useForm } from 'react-hook-form';
 
 import { setIsOtpSent, useAuthViewStore } from '@/modules/auth/store';
@@ -22,7 +24,18 @@ export const useOtpForm = () => {
   const postAuthOtpMutation = usePostAuthOtpMutation();
 
   const onSubmit = otpForm.handleSubmit(async (values) => {
-    const postAuthOtpMutationResponse = await postAuthOtpMutation.mutateAsync({ params: values });
+    const postAuthOtpMutationResponse = await postAuthOtpMutation.mutateAsync(
+      { params: values },
+      {
+        onError: (e) => {
+          if (e instanceof AxiosError) {
+            if (e.response?.data.message) {
+              otpForm.setError('phone', { message: e.response.data.message });
+            }
+          }
+        }
+      }
+    );
     setIsOtpSent(true);
     authViewStore.setRetryDelay(postAuthOtpMutationResponse.data.retryDelay);
   });
