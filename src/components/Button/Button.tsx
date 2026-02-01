@@ -1,6 +1,8 @@
 import clsx from 'clsx';
 import React from 'react';
 
+import preloader from '../../assets/icons/preloading.svg';
+
 import styles from './Button.module.css';
 
 type ButtonVariant = 'contained' | 'outlined';
@@ -20,7 +22,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       {...props}
       ref={ref}
     >
-      {loading ? <>loading</> : <>{children}</>}
+      {loading ? <img alt='Loading...' src={preloader} /> : <>{children}</>}
     </button>
   )
 );
