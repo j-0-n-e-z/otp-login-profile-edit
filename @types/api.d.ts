@@ -35,8 +35,17 @@ interface CreateOtpDto {
   phone: string;
 }
 
+interface CreateUsersDto {
+  code: number;
+  phone: string;
+}
+
 interface OtpResponse extends BaseResponse {
   reason?: string;
   retryDelay: number;
   success: boolean;
+}
+
+interface UserSignInResponse extends BaseResponse {
+  user: string;
 }
