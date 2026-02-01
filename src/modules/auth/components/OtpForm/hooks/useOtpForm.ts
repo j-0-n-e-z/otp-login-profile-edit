@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AxiosError } from 'axios';
 import { useForm } from 'react-hook-form';
