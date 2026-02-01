@@ -33,7 +33,12 @@ export const OtpForm = () => {
         control={form.control}
       />
 
-      <Button type='submit' variant='contained' loading={state.isLoading}>
+      <Button
+        disabled={state.isLoading}
+        type='submit'
+        variant='contained'
+        loading={state.isLoading}
+      >
         Войти
       </Button>
     </form>
