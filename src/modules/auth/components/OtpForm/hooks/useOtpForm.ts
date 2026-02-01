@@ -13,7 +13,10 @@ export const useOtpForm = () => {
 
   const otpForm = useForm<OtpScheme>({
     mode: 'onBlur',
-    resolver: zodResolver(otpScheme)
+    resolver: zodResolver(otpScheme),
+    defaultValues: {
+      phone: ''
+    }
   });
 
   const postAuthOtpMutation = usePostAuthOtpMutation();
