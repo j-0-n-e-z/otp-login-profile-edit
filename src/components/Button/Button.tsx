@@ -10,12 +10,12 @@ type ButtonVariant = 'contained' | 'outlined';
 interface ButtonProps extends React.ComponentProps<'button'> {
   children: React.ReactNode;
   loading?: boolean;
-  variant: ButtonVariant;
+  variant?: ButtonVariant;
 }
 
 // eslint-disable-next-line react/no-forward-ref, siberiacancode-react/display-name
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ children, variant, className, loading, ...props }, ref) => (
+  ({ children, variant = 'contained', className, loading, ...props }, ref) => (
     <button
       className={clsx(styles.button, styles[variant], className)}
       type='button'
