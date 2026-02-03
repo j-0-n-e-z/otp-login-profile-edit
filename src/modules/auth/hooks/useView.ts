@@ -79,7 +79,7 @@ export const useView = () => {
 
   return {
     form: authForm,
-    state: { isLoading: authForm.formState.isSubmitting, stage },
+    state: { isLoading: authForm.formState.isSubmitting, stage, phone, submittedPhones },
     functions: { onSubmit }
   };
 };

@@ -2,6 +2,7 @@ import { Controller } from 'react-hook-form';
 import { PatternFormat } from 'react-number-format';
 
 import { Button, Input, Typography } from '@/components';
+import { Countdown } from '@/components/Countdown/Countdown';
 
 import { useView } from './hooks/useView';
 
@@ -9,6 +10,7 @@ import styles from './View.module.css';
 
 export const AuthView = () => {
   const { functions, form, state } = useView();
+  const { errors } = form.formState;
 
   return (
     <form className={styles.container} onSubmit={functions.onSubmit}>
@@ -22,7 +24,7 @@ export const AuthView = () => {
       </Typography>
 
       <Controller
-        render={({ field: { onChange, ...restField }, fieldState }) => (
+        render={({ field: { onChange, ...restField }, fieldState: { error } }) => (
           <Input
             {...restField}
             disabled={state.isLoading}
@@ -31,21 +33,20 @@ export const AuthView = () => {
             format='+7 (###) ### ## ##'
             onValueChange={({ value }) => onChange(value)}
             placeholder='Телефон'
-            {...(fieldState.error && { error: fieldState.error.message })}
+            {...(error && { error: error.message })}
           />
         )}
         name='phone'
         control={form.control}
       />
 
-      {state.stage === 'otp' && (
+      {state.stage === 'otp' && state.submittedPhones[state.phone] && (
         <Input
           disabled={state.isLoading}
           maxLength={6}
           placeholder='Проверочный код'
           {...form.register('otp')}
-          {...('otp' in form.formState.errors &&
-            form.formState.errors.otp && { error: form.formState.errors.otp.message })}
+          {...('otp' in errors && errors.otp && { error: errors.otp.message })}
         />
       )}
 
@@ -57,6 +58,13 @@ export const AuthView = () => {
       >
         Войти
       </Button>
+
+      {state.stage === 'otp' && state.submittedPhones[state.phone] && (
+        <Countdown
+          retryDelay={Math.trunc((state.submittedPhones[state.phone] - Date.now()) / 1000)}
+          onRetry={functions.onRetry}
+        />
+      )}
     </form>
   );
 };
