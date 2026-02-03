@@ -4,9 +4,11 @@ export const useCountdown = (defaultSeconds: number) => {
   const [seconds, setSeconds] = useState(defaultSeconds);
 
   useEffect(() => {
+    if (seconds <= 0) return;
+
     const timer = setInterval(() => {
       setSeconds((seconds) => {
-        if (seconds === 0) {
+        if (seconds <= 0) {
           clearInterval(timer);
           return 0;
         }
