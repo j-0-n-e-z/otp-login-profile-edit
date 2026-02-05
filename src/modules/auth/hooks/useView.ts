@@ -5,6 +5,8 @@ import { useForm } from 'react-hook-form';
 
 import { usePostAuthOtpMutation } from '@/utils/api/hooks/usePostAuthOtpMutation';
 import { usePostUserSignInMutation } from '@/utils/api/hooks/usePostUserSignInMutation';
+import { LOCAL_STORAGE_KEYS } from '@/utils/constants';
+import { useStore } from '@/utils/store';
 
 import type { OtpFormScheme } from '../constants/otpFormScheme';
 import type { PhoneFormScheme } from '../constants/phoneFormScheme';
@@ -40,24 +42,33 @@ export const useView = () => {
   const postAuthOtpMutation = usePostAuthOtpMutation();
   const postUserSingInMutation = usePostUserSignInMutation();
 
-  const onSubmit = authForm.handleSubmit(async (values) => {
-    if (stage === 'phone' && 'phone' in values) {
-      const postAuthOtpMutationResponse = await postAuthOtpMutation.mutateAsync(
-        { params: values },
-        {
-          onError: (error) => {
-            if (error instanceof AxiosError) {
-              authForm.setError('phone', { message: error.response?.data?.reason });
-            }
+  const sendOtp = async (phone: string) => {
+    const postAuthOtpMutationResponse = await postAuthOtpMutation.mutateAsync(
+      { params: { phone } },
+      {
+        onError: (error) => {
+          if (error instanceof AxiosError) {
+            authForm.setError('phone', { message: error.response?.data?.reason });
           }
         }
-      );
+      }
+    );
 
-      setSubmittedPhones({
-        ...submittedPhones,
-        [phone]: Date.now() + postAuthOtpMutationResponse.data.retryDelay
-      });
+    const retryDelay = postAuthOtpMutationResponse.data.retryDelay;
 
+    setSubmittedPhones({
+      ...submittedPhones,
+      [phone]: Date.now() + retryDelay
+    });
+
+    return retryDelay;
+  };
+
+  const onRetry = () => sendOtp(phone);
+
+  const onSubmit = authForm.handleSubmit(async (values) => {
+    if (stage === 'phone' && 'phone' in values) {
+      await sendOtp(phone);
       setStage('otp');
       return;
     }
@@ -72,6 +83,10 @@ export const useView = () => {
             if (error instanceof AxiosError) {
               authForm.setError('otp', { message: error.response?.data?.reason });
             }
+          },
+          onSuccess: (response) => {
+            localStorage.setItem(LOCAL_STORAGE_KEYS.TOKEN, response.data.token);
+            useStore.setState({ isLoggedIn: true, user: response.data.user });
           }
         }
       );
@@ -81,6 +96,6 @@ export const useView = () => {
   return {
     form: authForm,
     state: { isLoading: authForm.formState.isSubmitting, stage, phone, submittedPhones },
-    functions: { onSubmit }
+    functions: { onSubmit, onRetry }
   };
 };
