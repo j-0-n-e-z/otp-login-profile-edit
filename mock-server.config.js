@@ -20,7 +20,7 @@ const flatMockServerConfig = [
                 }
               }
             },
-            data: { code: '123456', retryDelay: 120_000 },
+            data: { code: '123456', retryDelay: 5000 },
             interceptors: {
               response: async (data) => {
                 await delay(1500);
@@ -67,7 +67,16 @@ const flatMockServerConfig = [
                 }
               }
             },
-            data: { message: 'yeah' }
+            data: {
+              token: 'my_token',
+              user: {
+                phone: '1111111111',
+                firstname: 'Rustam',
+                lastname: 'Gabdullin',
+                email: 'rigabdullin@yandex.ru',
+                city: 'Perm'
+              }
+            }
           },
           {
             entities: {
@@ -89,6 +98,29 @@ const flatMockServerConfig = [
                 setStatusCode(404);
                 return data;
               }
+            }
+          }
+        ]
+      },
+      {
+        path: '/user/session',
+        method: 'get',
+        routes: [
+          {
+            entities: {
+              query: {
+                token: {
+                  checkMode: 'equals',
+                  value: 'my_token'
+                }
+              }
+            },
+            data: {
+              phone: '1111111111',
+              firstname: 'Rustam',
+              lastname: 'Gabdullin',
+              email: 'rigabdullin@yandex.ru',
+              city: 'Perm'
             }
           }
         ]
