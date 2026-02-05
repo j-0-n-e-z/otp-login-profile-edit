@@ -1,7 +1,7 @@
 import { api } from '@/utils/api/instance';
 
-type PostUserSignInParams = CreateUsersDto;
+type PostUserSignInParams = SignInDto;
 export type PostUserSignInRequestConfig = RequestConfig<PostUserSignInParams>;
 
 export const postUserSignIn = ({ params, config }: PostUserSignInRequestConfig) =>
-  api.post<UserSignInResponse>('auth/user', params, config);
+  api.post<SignInResponse>('auth/user', params, config);

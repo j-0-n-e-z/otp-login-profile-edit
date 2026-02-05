@@ -1,3 +1,4 @@
+/* eslint-disable perfectionist/sort-interfaces */
 interface MutationSettings<Params = void, Func = unknown> {
   config?: ApiRequestConfig;
   options?: import('@tanstack/react-query').UseMutationOptions<
@@ -35,7 +36,7 @@ interface CreateOtpDto {
   phone: string;
 }
 
-interface CreateUsersDto {
+interface SignInDto {
   code: number;
   phone: string;
 }
@@ -46,6 +47,20 @@ interface OtpResponse extends BaseResponse {
   success: boolean;
 }
 
-interface UserSignInResponse extends BaseResponse {
-  user: string;
+interface SignInResponse extends BaseResponse {
+  user: User;
+  token: string
+}
+
+interface SessionResponse extends BaseResponse {
+  user: User
+}
+
+interface User {
+  phone: string
+  firstname?: string
+  middlename?: string
+  lastname?: string
+  email?: string
+  city?: string
 }
