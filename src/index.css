@@ -17,11 +17,14 @@
   --background-hover-primary: #0052cc;
   --background-brand-extralight: #cce0ff;
   --background-disabled: #f3f4f6;
+  --background-tertiary: #f9fafb;
 
   --border-light: #ced2da;
 
   --text-invert: #fff;
   --text-error: #f64c4c;
+  --text-secondary: #344051;
+  --text-tertiary: #637083;
 
   --indicator-error: #f64c4c;
 }
