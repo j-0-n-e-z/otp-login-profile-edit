@@ -17,9 +17,10 @@ export const useView = () => {
   const [submittedPhones, setSubmittedPhones] = useState<{ [key: string]: number }>({});
 
   const authForm = useForm<OtpFormScheme | PhoneFormScheme>({
-    mode: 'onTouched',
+    mode: 'onBlur',
     defaultValues: {
-      phone: ''
+      phone: '',
+      otp: ''
     },
     resolver: zodResolver(stage === 'phone' ? phoneFormScheme : otpFormScheme)
   });
