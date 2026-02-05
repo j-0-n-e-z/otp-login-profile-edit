@@ -12,6 +12,8 @@ export const AuthView = () => {
   const { functions, form, state } = useView();
   const { errors } = form.formState;
 
+  console.log('@', errors);
+
   return (
     <form className={styles.container} onSubmit={functions.onSubmit}>
       <Typography tag='h1' variant='title'>
@@ -30,10 +32,10 @@ export const AuthView = () => {
             disabled={state.isLoading}
             autoComplete='tel'
             component={PatternFormat}
+            error={error?.message}
             format='+7 (###) ### ## ##'
             onValueChange={({ value }) => onChange(value)}
             placeholder='Телефон'
-            {...(error && { error: error.message })}
           />
         )}
         name='phone'
@@ -42,11 +44,17 @@ export const AuthView = () => {
 
       {state.stage === 'otp' && state.submittedPhones[state.phone] && (
         <Input
-          disabled={state.isLoading}
           maxLength={6}
-          placeholder='Проверочный код'
+          type='tel'
+          autoComplete='one-time-code'
+          onBeforeInput={(e) => {
+            if (!/^\d*$/.test(e.data ?? '')) {
+              e.preventDefault();
+            }
+          }}
           {...form.register('otp')}
-          {...('otp' in errors && errors.otp && { error: errors.otp.message })}
+          onBlur={() => form.trigger('otp')}
+          {...('otp' in errors && { error: errors.otp?.message })}
         />
       )}
 
