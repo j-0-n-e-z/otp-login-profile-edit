@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { devtools, persist } from 'zustand/middleware';
 
 interface StoreState {
   isLoggedIn: boolean;
@@ -8,8 +9,23 @@ interface StoreState {
 }
 
 export const useStore = create<StoreState>((set) => ({
-  user: {} as User,
   isLoggedIn: false,
+  user: {} as User,
   setIsLoggedIn: (isLoggedIn) => set({ isLoggedIn }),
   setUser: (user) => set({ user })
 }));
+
+interface TokenState {
+  token: string | null;
+}
+
+export const useToken = create<TokenState>()(
+  devtools(
+    persist(
+      () => ({
+        token: null as TokenState['token']
+      }),
+      { name: 'token-store' }
+    )
+  )
+);

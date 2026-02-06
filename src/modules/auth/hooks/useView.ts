@@ -1,12 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { AxiosError } from 'axios';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { usePostAuthOtpMutation } from '@/utils/api/hooks/usePostAuthOtpMutation';
 import { usePostUserSignInMutation } from '@/utils/api/hooks/usePostUserSignInMutation';
-import { LOCAL_STORAGE_KEYS } from '@/utils/constants';
-import { useStore } from '@/utils/store';
+import { useStore, useToken } from '@/utils/store';
 
 import type { OtpFormScheme } from '../constants/otpFormScheme';
 import type { PhoneFormScheme } from '../constants/phoneFormScheme';
@@ -43,16 +41,9 @@ export const useView = () => {
   const postUserSingInMutation = usePostUserSignInMutation();
 
   const sendOtp = async (phone: string) => {
-    const postAuthOtpMutationResponse = await postAuthOtpMutation.mutateAsync(
-      { params: { phone } },
-      {
-        onError: (error) => {
-          if (error instanceof AxiosError) {
-            authForm.setError('phone', { message: error.response?.data?.reason });
-          }
-        }
-      }
-    );
+    const postAuthOtpMutationResponse = await postAuthOtpMutation.mutateAsync({
+      params: { phone }
+    });
 
     const retryDelay = postAuthOtpMutationResponse.data.retryDelay;
 
@@ -74,22 +65,17 @@ export const useView = () => {
     }
 
     if (stage === 'otp' && 'otp' in values) {
-      await postUserSingInMutation.mutateAsync(
-        {
-          params: { code: +authForm.getValues('otp'), phone: authForm.getValues('phone') }
-        },
-        {
-          onError: (error) => {
-            if (error instanceof AxiosError) {
-              authForm.setError('otp', { message: error.response?.data?.reason });
-            }
-          },
-          onSuccess: (response) => {
-            localStorage.setItem(LOCAL_STORAGE_KEYS.TOKEN, response.data.token);
-            useStore.setState({ isLoggedIn: true, user: response.data.user });
-          }
-        }
-      );
+      const postUserSignInMutationResponse = await postUserSingInMutation.mutateAsync({
+        params: { code: +authForm.getValues('otp'), phone: authForm.getValues('phone') }
+      });
+
+      if (!postUserSignInMutationResponse.data.success) {
+        authForm.setError('otp', { message: postUserSignInMutationResponse.data?.reason });
+        return;
+      }
+
+      useToken.setState({ token: postUserSignInMutationResponse.data.token });
+      useStore.setState({ isLoggedIn: true, user: postUserSignInMutationResponse.data.user });
     }
   });
 
