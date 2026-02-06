@@ -1,0 +1,24 @@
+@baseUrl = http://localhost:31299/api
+
+### Auth OTP
+POST {{baseUrl}}/auth/otp
+Content-Type: application/json
+
+{
+  "phone": "1234567890"
+}
+
+### Auth User
+POST {{baseUrl}}/auth/user
+Content-Type: application/json
+
+## code from generateOTP
+{
+  "phone": "1234567890",
+  "code": 482290
+}
+
+### User auth Token
+GET {{baseUrl}}/user/session
+Authorization: Bearer my_token
+

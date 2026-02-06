@@ -1,6 +1,12 @@
 /** @type {import('mock-config-server').FlatMockServerConfig} */
 const delay = async (ms) => await new Promise((res) => setTimeout(res, ms));
 
+const submitted = {};
+
+function generateOTP() {
+  return +`${Math.floor(Math.random() * 100000)}`.padEnd(6, '0');
+}
+
 const flatMockServerConfig = [
   {
     baseUrl: '/api'
@@ -20,10 +26,17 @@ const flatMockServerConfig = [
                 }
               }
             },
-            data: { code: '123456', retryDelay: 5000 },
+            data: { code: 0, retryDelay: 5000 },
             interceptors: {
-              response: async (data) => {
+              response: async (data, { request }) => {
                 await delay(1500);
+
+                const otp = generateOTP();
+                submitted[request.body.phone] = otp;
+                data.code = otp;
+
+                console.log(submitted);
+
                 return data;
               }
             }
@@ -42,8 +55,8 @@ const flatMockServerConfig = [
                   value: /^\d{10}$/
                 },
                 code: {
-                  checkMode: 'equals',
-                  value: 123456
+                  checkMode: 'regExp',
+                  value: /^\d{6}$/
                 }
               }
             },
@@ -57,27 +70,16 @@ const flatMockServerConfig = [
                 email: 'rigabdullin@yandex.ru',
                 city: 'Perm'
               }
-            }
-          },
-          {
-            entities: {
-              body: {
-                phone: {
-                  checkMode: 'regExp',
-                  value: /^\d{10}$/
-                },
-                code: {
-                  checkMode: 'notEquals',
-                  value: 123456
-                }
-              }
             },
-            data: { reason: 'Проверочный код неверный' },
             interceptors: {
-              response: async (data, { setStatusCode }) => {
+              response: async (data, { request, setStatusCode }) => {
                 await delay(1500);
-                setStatusCode(404);
-                return data;
+
+                const { phone, code } = request.body;
+                if (code === submitted[phone]) return data;
+
+                setStatusCode(400);
+                return { reason: 'Проверочный код неверен' };
               }
             }
           }
@@ -95,7 +97,7 @@ const flatMockServerConfig = [
             },
             data: {
               user: {
-                phone: '1111111111',
+                phone: '9927941027',
                 firstname: 'Rustam',
                 lastname: 'Gabdullin',
                 email: 'rigabdullin@yandex.ru',
