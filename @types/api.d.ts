@@ -30,6 +30,8 @@ type RequestConfig<Params = undefined> = Params extends undefined
 
 interface BaseResponse {
   message: string;
+  success: boolean;
+  reason?: string;
 }
 
 interface CreateOtpDto {
@@ -42,25 +44,23 @@ interface SignInDto {
 }
 
 interface OtpResponse extends BaseResponse {
-  reason?: string;
   retryDelay: number;
-  success: boolean;
 }
 
 interface SignInResponse extends BaseResponse {
   user: User;
-  token: string
+  token: string;
 }
 
 interface SessionResponse extends BaseResponse {
-  user: User
+  user: User;
 }
 
 interface User {
-  phone: string
-  firstname?: string
-  middlename?: string
-  lastname?: string
-  email?: string
-  city?: string
+  phone: string;
+  firstname?: string;
+  middlename?: string;
+  lastname?: string;
+  email?: string;
+  city?: string;
 }
