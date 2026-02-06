@@ -8,7 +8,7 @@ export const usePostUserSignInMutation = (
   settings?: MutationSettings<PostUserSignInRequestConfig, typeof postUserSignIn>
 ) =>
   useMutation({
-    mutationKey: ['postUsersSignin'],
+    mutationKey: ['postUserSignIn'],
     mutationFn: ({ params, config }) =>
       postUserSignIn({ params, config: { ...settings?.config, ...config } }),
     ...settings?.options
