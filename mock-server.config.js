@@ -15,8 +15,8 @@ const flatMockServerConfig = [
             entities: {
               body: {
                 phone: {
-                  checkMode: 'equals',
-                  value: '1111111111'
+                  checkMode: 'regExp',
+                  value: /^\d{10}$/
                 }
               }
             },
@@ -24,26 +24,6 @@ const flatMockServerConfig = [
             interceptors: {
               response: async (data) => {
                 await delay(1500);
-                return data;
-              }
-            }
-          },
-          {
-            entities: {
-              body: {
-                phone: {
-                  checkMode: 'notEquals',
-                  value: '1111111111'
-                }
-              }
-            },
-            data: {
-              reason: 'Телефон не найден'
-            },
-            interceptors: {
-              response: async (data, { setStatusCode }) => {
-                await delay(1500);
-                setStatusCode(404);
                 return data;
               }
             }
@@ -58,8 +38,8 @@ const flatMockServerConfig = [
             entities: {
               body: {
                 phone: {
-                  checkMode: 'equals',
-                  value: '1111111111'
+                  checkMode: 'regExp',
+                  value: /^\d{10}$/
                 },
                 code: {
                   checkMode: 'equals',
@@ -68,6 +48,7 @@ const flatMockServerConfig = [
               }
             },
             data: {
+              success: true,
               token: 'my_token',
               user: {
                 phone: '1111111111',
@@ -82,8 +63,8 @@ const flatMockServerConfig = [
             entities: {
               body: {
                 phone: {
-                  checkMode: 'equals',
-                  value: '1111111111'
+                  checkMode: 'regExp',
+                  value: /^\d{10}$/
                 },
                 code: {
                   checkMode: 'notEquals',
@@ -108,19 +89,18 @@ const flatMockServerConfig = [
         routes: [
           {
             entities: {
-              query: {
-                token: {
-                  checkMode: 'equals',
-                  value: 'my_token'
-                }
+              headers: {
+                Authorization: 'Bearer my_token'
               }
             },
             data: {
-              phone: '1111111111',
-              firstname: 'Rustam',
-              lastname: 'Gabdullin',
-              email: 'rigabdullin@yandex.ru',
-              city: 'Perm'
+              user: {
+                phone: '1111111111',
+                firstname: 'Rustam',
+                lastname: 'Gabdullin',
+                email: 'rigabdullin@yandex.ru',
+                city: 'Perm'
+              }
             }
           }
         ]
