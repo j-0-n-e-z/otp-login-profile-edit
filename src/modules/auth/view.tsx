@@ -12,8 +12,6 @@ export const AuthView = () => {
   const { functions, form, state } = useView();
   const { errors } = form.formState;
 
-  console.log('@', errors);
-
   return (
     <form className={styles.container} onSubmit={functions.onSubmit}>
       <Typography tag='h1' variant='title'>

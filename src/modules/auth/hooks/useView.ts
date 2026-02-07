@@ -2,22 +2,23 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
+import type { PhoneFormScheme } from '@/modules/auth/constants/phoneFormScheme';
+
+import { phoneFormScheme } from '@/modules/auth/constants/phoneFormScheme';
 import { usePostAuthOtpMutation } from '@/utils/api/hooks/usePostAuthOtpMutation';
 import { usePostUserSignInMutation } from '@/utils/api/hooks/usePostUserSignInMutation';
 import { useStore, useToken } from '@/utils/store';
 
 import type { OtpFormScheme } from '../constants/otpFormScheme';
-import type { PhoneFormScheme } from '../constants/phoneFormScheme';
 
 import { otpFormScheme } from '../constants/otpFormScheme';
-import { phoneFormScheme } from '../constants/phoneFormScheme';
 
 export const useView = () => {
   const [stage, setStage] = useState<'otp' | 'phone'>('phone');
   const [submittedPhones, setSubmittedPhones] = useState<{ [key: string]: number }>({});
 
   const authForm = useForm<OtpFormScheme | PhoneFormScheme>({
-    mode: 'onBlur',
+    mode: 'onTouched',
     defaultValues: {
       phone: '',
       otp: ''

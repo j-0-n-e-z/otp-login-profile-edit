@@ -1,0 +1,13 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  text-align: start;
+  gap: 20px;
+}
+
+.fieldset {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}

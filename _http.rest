@@ -8,17 +8,27 @@ Content-Type: application/json
   "phone": "1234567890"
 }
 
-### Auth User
+### Auth user
 POST {{baseUrl}}/auth/user
 Content-Type: application/json
 
 ## code from generateOTP
 {
   "phone": "1234567890",
-  "code": 482290
+  "code": 486190
 }
 
-### User auth Token
+### User auth token
 GET {{baseUrl}}/user/session
 Authorization: Bearer my_token
 
+### Patch user
+PATCH {{baseUrl}}/user/patch
+Content-Type: application/json
+Authorization: Bearer my_token
+
+{
+  "firstname": "John",
+  "lastname": "Doe",
+  "middlename": "Whoknows"
+}

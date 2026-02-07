@@ -68,3 +68,8 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+fieldset {
+  border: none;
+  padding: 0;
+}

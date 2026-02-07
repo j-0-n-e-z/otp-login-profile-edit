@@ -11,7 +11,10 @@ import './styles/reset.css';
 const init = async () => {
   if (useToken.getState().token) {
     const getUserSessionResponse = await getUserSession();
-    useStore.setState({ isLoggedIn: true, user: getUserSessionResponse.data.user });
+
+    if (getUserSessionResponse.data.success) {
+      useStore.setState({ isLoggedIn: true, user: getUserSessionResponse.data.user });
+    }
   }
 
   createRoot(document.getElementById('root')!).render(

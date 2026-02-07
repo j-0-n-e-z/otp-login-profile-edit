@@ -43,6 +43,17 @@ interface SignInDto {
   phone: string;
 }
 
+interface UpdateProfileDto {
+  phone: string;
+  user: {
+    firstname?: string;
+    middlename?: string;
+    lastname?: string;
+    email?: string;
+    city?: string;
+  };
+}
+
 interface OtpResponse extends BaseResponse {
   retryDelay: number;
 }
@@ -53,6 +64,10 @@ interface SignInResponse extends BaseResponse {
 }
 
 interface SessionResponse extends BaseResponse {
+  user: User;
+}
+
+interface UpdateProfileResponse extends BaseResponse {
   user: User;
 }
 
