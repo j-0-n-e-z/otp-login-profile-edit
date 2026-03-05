@@ -2,16 +2,15 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import type { PhoneFormScheme } from '@/modules/auth/constants/phoneFormScheme';
-
-import { phoneFormScheme } from '@/modules/auth/constants/phoneFormScheme';
 import { usePostAuthOtpMutation } from '@/utils/api/hooks/usePostAuthOtpMutation';
 import { usePostUserSignInMutation } from '@/utils/api/hooks/usePostUserSignInMutation';
 import { useStore, useToken } from '@/utils/store';
 
-import type { OtpFormScheme } from '../constants/otpFormScheme';
+import type { OtpFormScheme } from '../schemas/otpFormScheme';
+import type { PhoneFormScheme } from '../schemas/phoneFormScheme';
 
-import { otpFormScheme } from '../constants/otpFormScheme';
+import { otpFormScheme } from '../schemas/otpFormScheme';
+import { phoneFormScheme } from '../schemas/phoneFormScheme';
 
 export const useView = () => {
   const [stage, setStage] = useState<'otp' | 'phone'>('phone');
